@@ -221,6 +221,25 @@ Dir  Binario     Instrucción     Descripción
 
 ---
 
+## Guía de Simulación
+
+El siguiente diagrama de tiempos muestra la secuencia de ingreso de datos para calcular el GCD(12, 8) con el programa precargado en la RAM:
+
+![Diagrama de Tiempos — Ingreso de Datos para GCD(12, 8)](diagrama_tiempos_gcd.png)
+
+### Pasos para simular:
+
+1. **Reset** (3 ciclos): Mantener `reset='1'` durante al menos 3 ciclos de reloj para inicializar todos los registros.
+2. **Primer dato (IN #1):** El procesador entra al estado `s_input` y espera. Colocar el primer número en `Input[7:0]` (ejemplo: `00001100` = 12) y pulsar `enter='1'` durante 1 ciclo.
+3. **STORE 28:** El procesador ejecuta automáticamente `STORE 28` para guardar el primer número en M[28].
+4. **Segundo dato (IN #2):** El procesador vuelve a `s_input`. Colocar el segundo número en `Input[7:0]` (ejemplo: `00001000` = 8) y pulsar `enter='1'`.
+5. **Cálculo automático:** El procesador ejecuta el algoritmo GCD por restas sucesivas hasta alcanzar `HALT`.
+6. **Resultado:** El valor de `Output[7:0]` muestra el GCD (en este caso, `00000100` = 4).
+
+> **Nota:** Cada instrucción toma 4 ciclos de reloj (start → fetch → decode → execute). El estado `s_input` permanece esperando hasta que `enter='1'`.
+
+---
+
 ## Compatibilidad
 
 ✅ **100% portable** — Solo usa librerías estándar IEEE (`std_logic_1164`, `numeric_std`).  
