@@ -1,0 +1,14 @@
+# Quartus project files
+db/
+incremental_db/
+output_files/
+simulation/
+*.qpf
+*.qsf
+*.bak
+*.vwf
+
+# GHDL output
+*.cf
+*.o
+work-obj*.cf
