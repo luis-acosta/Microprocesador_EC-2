@@ -196,7 +196,22 @@ Genera banderas de overflow con signo y sin signo (no usadas por el EC-2).
 
 ## Programa Precargado: GCD (Máximo Común Divisor)
 
-La RAM viene inicializada con un programa que calcula el GCD de dos números por restas sucesivas:
+### Algoritmo de Euclides por restas sucesivas
+
+```
+Entrada: a, b  (dos números positivos)
+Mientras a ≠ b:
+    Si a > b:  a ← a − b
+    Si b > a:  b ← b − a
+Salida: a  (= b = GCD)
+
+Ejemplo: GCD(12, 8)
+  12 − 8 = 4  → a=4, b=8
+  8 − 4  = 4  → a=4, b=4
+  a == b       → GCD = 4
+```
+
+La RAM viene inicializada con la implementación de este algoritmo en lenguaje máquina del EC-2. Se utilizan las direcciones M[28] y M[29] como variables `a` y `b`:
 
 ```
 Dir  Binario     Instrucción     Descripción
