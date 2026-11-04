@@ -221,6 +221,71 @@ Dir  Binario     Instrucción     Descripción
 
 ---
 
+## Ejemplo: Cálculo del GCD(12, 8)
+
+A continuación se muestra la traza de ejecución completa del programa GCD con las entradas **a = 12** y **b = 8**:
+
+```
+Ciclo  Estado     PC  Instrucción       Acción                          A     M[28]  M[29]
+─────  ─────────  ──  ────────────────  ──────────────────────────────  ────  ─────  ─────
+  1    s_start     0                    Inicialización                   0      -      -
+  2    s_fetch     0  IN                Carga IR ← M[0] = "10000000"    0      -      -
+  3    s_decode    1                    Opcode "100" → s_input           0      -      -
+  4    s_input     1                    Espera enter='1'...              0      -      -
+  ...  s_input     1                    Usuario coloca Input = 12        0      -      -
+  ~    s_input     1  IN                enter='1' → A ← 12             12      -      -
+  ~    s_fetch     1  STORE 28          Carga IR ← M[1] = "00111100"   12      -      -
+  ~    s_decode    2                    Opcode "001" → s_store          12      -      -
+  ~    s_store     2  STORE 28          M[28] ← A                      12     12      -
+  ~    s_fetch     2  IN                Carga IR ← M[2] = "10000000"   12     12      -
+  ~    s_decode    3                    Opcode "100" → s_input          12     12      -
+  ~    s_input     3                    Espera enter='1'...             12     12      -
+  ...  s_input     3                    Usuario coloca Input = 8        12     12      -
+  ~    s_input     3  IN                enter='1' → A ← 8               8     12      -
+  ~    s_fetch     3  STORE 29          Carga IR ← M[3] = "00111101"    8     12      -
+  ~    s_decode    4                    Opcode "001" → s_store           8     12      -
+  ~    s_store     4  STORE 29          M[29] ← A                       8     12      8
+─────────────────────────────── Iteración 1 ────────────────────────────────────────────
+  ~    s_fetch     4  LOAD 28           IR ← M[4] = "00011100"          8     12      8
+  ~    s_decode    5                    Opcode "000" → s_load            8     12      8
+  ~    s_load      5  LOAD 28           A ← M[28]                      12     12      8
+  ~    s_fetch     5  SUB 29            IR ← M[5] = "01111101"         12     12      8
+  ~    s_decode    6                    Opcode "011" → s_sub            12     12      8
+  ~    s_sub       6  SUB 29            A ← 12 - 8                      4     12      8
+  ~    s_fetch     6  JZ 14             IR ← M[6] = "10101110"          4     12      8
+  ~    s_decode    7                    Opcode "101" → s_jz              4     12      8
+  ~    s_jz        7  JZ 14             A≠0 → no salta                  4     12      8
+  ~    s_fetch     7  JPOS 12           IR ← M[7] = "11001100"          4     12      8
+  ~    s_decode    8                    Opcode "110" → s_jpos            4     12      8
+  ~    s_jpos      8  JPOS 12           A>0 → PC ← 12                   4     12      8
+  ~    s_fetch    12  STORE 28          IR ← M[12] = "00111100"         4     12      8
+  ~    s_decode   13                    Opcode "001" → s_store           4     12      8
+  ~    s_store    13  STORE 28          M[28] ← 4                       4      4      8
+  ~    s_fetch    13  JPOS 4            IR ← M[13] = "11000100"         4      4      8
+  ~    s_decode   14                    Opcode "110" → s_jpos            4      4      8
+  ~    s_jpos     14  JPOS 4            A>0 → PC ← 4                    4      4      8
+─────────────────────────────── Iteración 2 ────────────────────────────────────────────
+  ~    s_fetch     4  LOAD 28           IR ← M[4]                       4      4      8
+  ~    s_load      5  LOAD 28           A ← M[28]                       4      4      8
+  ~    s_sub       6  SUB 29            A ← 4 - 8 = -4                 -4      4      8
+  ~    s_jz        7  JZ 14             A≠0 → no salta                 -4      4      8
+  ~    s_jpos      8  JPOS 12           A<0 → no salta                 -4      4      8
+  ~    s_load      9  LOAD 29           A ← M[29]                       8      4      8
+  ~    s_sub      10  SUB 28            A ← 8 - 4                       4      4      8
+  ~    s_store    11  STORE 29          M[29] ← 4                       4      4      4
+  ~    s_jpos     12  JPOS 4            A>0 → PC ← 4                    4      4      4
+─────────────────────────────── Iteración 3 ────────────────────────────────────────────
+  ~    s_load      5  LOAD 28           A ← M[28]                       4      4      4
+  ~    s_sub       6  SUB 29            A ← 4 - 4 = 0                   0      4      4
+  ~    s_jz        7  JZ 14             A=0 → PC ← 14 ¡IGUALES!         0      4      4
+  ~    s_load     15  LOAD 28           A ← M[28]                       4      4      4
+  ~    s_halt     16  HALT              *** FIN — Output = 4 ***         4      4      4
+```
+
+**Resultado: GCD(12, 8) = 4** — El acumulador A contiene el valor 4 y se muestra en `Output[7:0]`.
+
+---
+
 ## Guía de Simulación
 
 El siguiente diagrama de tiempos muestra la secuencia de ingreso de datos para calcular el GCD(12, 8) con el programa precargado en la RAM:
